@@ -1,6 +1,6 @@
 #include <iostream>
-
-using namespace std;
+#include <stack>
+//using namespace std;
 
 struct ListNode
 {
@@ -71,7 +71,7 @@ void removeNode(ListNode **pHead, int value)
 	}
 }
 
-/************ 反转指针 ***********/
+/************ 反转链表 ***********/
 //三指针滑动法
 
 ListNode * reverseList(ListNode *pHead)
@@ -92,8 +92,39 @@ ListNode * reverseList(ListNode *pHead)
 		pPrev = pNode;
 		pNode = pNext;
 	}
-	cout << "reverseList() 95: pReversedHead == " << pReversedHead << endl;
 	return pReversedHead;
+}
+
+/************　打印链表 *********/
+
+void printList(ListNode *pHead)
+{
+	ListNode *pNode = pHead;
+	while(pNode != nullptr)
+	{
+		std::cout << pNode->val << std::endl;
+		pNode = pNode->next;
+	}
+}
+
+/************　反向打印链表 *********/
+
+void printListfromTailtoHead(ListNode *pHead)
+{
+	std::stack<ListNode *> nodes;
+	ListNode *pNode = pHead;
+	while(pNode != nullptr)
+	{
+		nodes.push(pNode);
+		pNode = pNode->next;
+	}
+
+	while(!nodes.empty())
+	{
+		pNode = nodes.top();
+		std::cout << pNode->val << std::endl;
+		nodes.pop();
+	}
 }
 
 int main()
@@ -107,38 +138,36 @@ int main()
 	}
 
 	/****** print *******/
-	ListNode *pNode = head;
-	while (pNode != nullptr)
-	{
-		cout << pNode->val << endl;
-		pNode = pNode->next;
-	}
+	printList(head);
+	std::cout << "addToTail" << std::endl;
+	std::cout << "-------------" << std::endl;
 
 	/****** remove *********/
 	removeNode(&head, 3);
 	removeNode(&head, 0);
 	removeNode(&head, 9);
+	removeNode(&head, 11);
+	ListNode *pNullPtr = nullptr;
+	removeNode(&pNullPtr, 2);
+	removeNode(&pNullPtr, 12);
 
 	/****** print *******/
-	ListNode *pRemoveNode = head;
-	while (pRemoveNode != nullptr)
-	{
-		cout << pRemoveNode->val << endl;
-		pRemoveNode = pRemoveNode->next;
-	}
+	printList(head);
+	std::cout << "removeNode" << std::endl;
+	std::cout << "-------------" << std::endl;
 
 	/******* reverse *********/
 	ListNode *reverseHead = reverseList(head); 
 	
-
-	cout << "main() 120: reverseHead == " << reverseHead << endl;
 	/****** print *******/
-	ListNode *pReverseNode = reverseHead;
-	while (pReverseNode != nullptr)
-	{
-		cout << pReverseNode->val << endl;
-		pReverseNode = pReverseNode->next;
-	}
+	printList(reverseHead);
+	std::cout << "reverseList" << std::endl;
+	std::cout << "-------------" << std::endl;
+
+	/****** printListfromTailtoHead *******/
+	printListfromTailtoHead(reverseHead);
+	std::cout << "printListfromTailtoHead" << std::endl;
+	std::cout << "-------------" << std::endl;
 
 	return 0;
 }
